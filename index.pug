@@ -1,0 +1,103 @@
+-let listArr = ["About", "Services", "Projects"]
+
+mixin list(className)
+  ul(class=`${className}__list`)
+    each value in listArr
+      li(class=`${className}__item`)
+        a(class=`${className}__link` href="#!" aria-label= value)= value 
+    if (className == 'header')
+      li(class=`${className}__item`)
+        a(class=`${className}__link` href="#!" aria-label="button") 
+          div(class=`${className}__button`) contact
+
+mixin article(data)
+  .article
+    each value in data
+      .article__item
+        img.article__image(src= value["src"] alt= value["title"])
+        article.article__content 
+          h1.article__title= value["title"]
+          p.article__subtitle= value["subtitle"]
+          a.article__link(class=`article__link_${value["color"]}` href="#!" aria-label="learn more") learn more
+
+mixin images(data)
+  .images
+    each value in data
+      .images__item
+        h1.images__title= value["title"]
+        p.images__subtitle= value["subtitle"]
+
+mixin testimonials(data)
+  .testimonials
+    h1.testimonials__title client testimonials
+    .testimonials__box
+      each value in data
+        .testimonials__content
+          img.testimonials__image(src= value["src"], alt="profile")
+          p.testimonials__subtitle= value["text"]
+          p.testimonials__name= value["name"]
+          p.testimonials__position= value["position"]
+
+mixin gallery(data)
+  #gallery 
+    #gallery__images 
+      each value in data 
+        img#gallery__image(src= value["src"], alt= value["alt"])
+
+mixin footer
+  .footer
+    .footer__logo
+      a(href="#" aria-label="home") 
+        img(src="./images/logo.svg" alt="logo")
+    +list('footer')
+    -listBrands = ['facebook', 'instagram', 'twitter', 'pinterest']
+    ul.footer__list.footer__list_brands
+      each value in listBrands
+        li.footer__item
+          a.footer__link(href=`https://www.${value}.com` aria-label= value target="_blank")
+            img.footer__brand(src=`./images/icon-${value}.svg`, alt=value)
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Sunnyside agency landing page
+    link(rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png")
+    link(rel="stylesheet" href="./style.css")
+  body 
+    .component 
+      header.component__header
+        .header
+          nav.header__nav
+            a(href="#" aria-label="home") 
+              img.header__logo(src="./images/logo.svg" alt="logo")
+            img.header__burger(src="./images/icon-hamburger.svg" alt="menu")
+            +list('header')
+          .header__content
+            h1.header__title we are creatives
+            img(src="./images/icon-arrow-down.svg" alt="arrow-down")
+      main.component__main
+        +article([
+          {"title": "Transform your brand", "subtitle": "We are a full-service creative agency specializing in helping brands grow fast. Engage your clients through compelling visuals that do most of the marketing for you.", "src": "./images/mobile/image-transform.jpg", "color": "yellow"},
+          {"title": "Stand out to the right audience", "subtitle": "Using a collaborative formula of designers, researchers, photographers, videographers, and copywriters, we’ll build and extend your brand in digital places. ", "src": "./images/mobile/image-stand-out.jpg", "color": "red"}
+        ])
+        +images([
+          {"title": "Graphic design", "subtitle": "Great design makes you memorable. We deliver artwork that underscores your brand message and captures potential clients’ attention."},
+          {"title": "Photography", "subtitle": "Increase your credibility by getting the most stunning, high-quality photos that improve your business image."}
+        ])
+        +testimonials([
+          {"src": "./images/image-emily.jpg", "text": "We put our trust in Sunnyside and they delivered, making sure our needs were met and deadlines were always hit.", "name": "Emily R.", "position": "Marketing Director"}, 
+          {"src": "./images/image-thomas.jpg", "text": "Sunnyside’s enthusiasm coupled with their keen interest in our brand’s success made it a satisfying and enjoyable experience.", "name": "Thomas S", "position": "Chief Operating Officer"},
+          {"src": "./images/image-jennie.jpg", "text": "Incredible end result! Our sales increased over 400% when we worked with Sunnyside. Highly recommended!", "name": "Jennie F.", "position": "Business Owner"}
+        ])
+        +gallery([
+        {"src": "./images/mobile/image-gallery-milkbottles.jpg", "alt": "milkbottles"},
+        {"src": "./images/mobile/image-gallery-orange.jpg", "alt": "orange"},
+        {"src": "./images/mobile/image-gallery-cone.jpg", "alt": "cone"},
+        {"src": "./images/mobile/image-gallery-sugar-cubes.jpg", "alt": "sugarcubes"}
+        ])
+      footer.component__footer
+        +footer
+    script(src="./app.js")
